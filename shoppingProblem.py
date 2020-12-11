@@ -1,3 +1,4 @@
+##########################################################################################
 # In A store, there are some kinds of items to sell. Each item has a price.
 
 # However, there are some special offers, and a special offer consists of one or more different kinds of items with a sale price.
@@ -19,14 +20,21 @@
 # In special offer 2, you can pay $10 for 1A and 2B. 
 # You need to buy 3A and 2B, so you may pay $10 for 1A and 2B (special offer #2), and $4 for 2A.
 
+##################################################################################################
 
+#  key = needs, value = min price for those needs
+min_price_by_needs = {}
 def shoppingOffers(price, special, needs):
-    
+
     return getMinShoppingCost(price, special, needs)
     
 
 def getMinShoppingCost(price, special, needs):
     
+    needs_tuple = tuple(needs)
+    if needs_tuple in min_price_by_needs:
+        return min_price_by_needs[needs_tuple]
+
     # returns minimum cost of buying these items
     min_price = getRegularPriceForNeeds(price, needs)
     for offer in special:
@@ -38,6 +46,7 @@ def getMinShoppingCost(price, special, needs):
             offer_price = offer[-1]
             min_price = min(min_price, offer_price + getMinShoppingCost(price, special, curr_needs))
         
+    min_price_by_needs[needs_tuple] = min_price
     return min_price
         
 def applyOffer(offer, curr_needs):  
@@ -62,3 +71,5 @@ def getRegularPriceForNeeds(price, needs):
     return regular_price
 
 print(shoppingOffers([2,5], [[3,0,5],[1,2,10]], [3,2]))
+
+print(shoppingOffers([1,1,1],[[1,1,0,0],[2,2,1,0]],[1,1,1]))
