@@ -27,3 +27,42 @@ def setZeroes(matrix):
                 
 matrix = [[1,1,1],[1,0,1],[1,1,1]]
 setZeroes(matrix)
+
+
+def setZeroesConstSpace(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    zero_first_col = False
+    zero_first_row = False
+    
+    for r in range(rows):
+        for c in range(cols):
+            if matrix[r][c] == 0:
+                matrix[0][c] = 0
+                matrix[r][0] = 0
+                if c == 0:
+                    zero_first_col = True
+                if r == 0:
+                    zero_first_row = True
+    
+    # we go through the matrix starting from matrix[1][1], otherwise we could falsely zero out everything
+    for r in range(1,rows):
+        for c in range(1,cols):
+            if matrix[0][c] == 0 or matrix[r][0] == 0:                    
+                matrix[r][c] = 0
+                
+    #check if matrix[0][0] == 0
+    if matrix[0][0] == 0:
+        if zero_first_row:
+            for c in range(1,cols):
+                matrix[0][c] = 0
+        if zero_first_col:
+            for r in range(1,rows):
+                matrix[r][0] = 0
+    print(matrix)
+
+matrix = [[1,1,1],[1,0,1],[1,1,1]]
+setZeroesConstSpace(matrix)
+matrix2 = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+setZeroesConstSpace(matrix2)
