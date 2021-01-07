@@ -24,6 +24,7 @@ def textJustify(words, maxWidth):
     sentence = curr
     text = []
     i = 1
+    
     while i < len(words):
         word = words[i]
         if len(sentence) == 0 and len(word) == maxWidth:
@@ -46,6 +47,7 @@ def textJustify(words, maxWidth):
         text[-1] = left_align(text[-1], maxWidth)
     
     return text
+
 def count_chars(words):
     count = 0
     for word in words:

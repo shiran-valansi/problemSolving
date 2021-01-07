@@ -48,8 +48,7 @@ def climb_stairs_dynamic_programing(n):
         dp.append(new)
     return dp[n-1]
     
-        # Fibonacci O(1) space
-        
+       
 def climb_stairs_fibonacci_const_space(n):
 
     if n == 1:
