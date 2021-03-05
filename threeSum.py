@@ -1,8 +1,12 @@
-# given an array of numbers, return all unique triplets that sum up to target
-# example: 
-
-
 def threeSum(nums, target):
+    """
+    given an array of numbers, return all unique triplets that sum up to target
+
+    >>> threeSum([-1,0,1,2,-1,-4], 0)
+    [[-1,-1,2],[-1,0,1]]
+
+
+    """
 
     sum_list = []
     nums.sort()
