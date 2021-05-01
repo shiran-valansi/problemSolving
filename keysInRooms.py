@@ -29,6 +29,34 @@ def canVisitAllRooms(rooms):
 
     return len(visited) == len(rooms)
 
+def canVisitAllRoomsDFS(rooms):
+    """
+    >>> canVisitAllRoomsDFS([[1,3],[3,0,1],[2],[0]])
+    False
+
+    >>> canVisitAllRoomsDFS([[1],[2],[3],[]])
+    True
+
+    """
+    ##### DFS #####    
+    visited = {0}
+    
+    def dfs(curr):
+        
+        if len(visited) == len(rooms):
+            return True
+        
+        for child in rooms[curr]:
+            if child in visited:
+                continue
+            visited.add(child)
+            dfs(child)
+    
+    return dfs(0) or len(visited) == len(rooms) 
+        
+
+
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
