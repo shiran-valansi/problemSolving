@@ -8,6 +8,84 @@
 # For the last line of text, it should be left justified and no extra space is inserted between words.
 
 
+#################### Better version after my coding skills improved ####################
+
+def fullJustify(words, maxWidth):
+    """
+    For every word we see if it can be added to the current sentence- then add to a list of current words and ke3ep count of the number of letters
+    If it cannot be added- turn the list of words we currently have into a sentence
+    And our current word will start a new list of words
+
+    >>> fullJustify(["This", "is", "an", "example", "of", "text", "justification."], 16)
+    ['This    is    an', 'example  of text', 'justification.  ']
+
+    >>> fullJustify(["What","must","be","acknowledgment","shall","be"], 16)
+    ['What   must   be', 'acknowledgment  ', 'shall be        ']
+
+    >>> fullJustify(["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"], 20)
+    ['Science  is  what we', 'understand      well', 'enough to explain to', 'a  computer.  Art is', 'everything  else  we', 'do                  ']
+    """
+
+    par = []
+    temp_words = []
+    letter_count = 0
+    
+    for word in words:
+        
+        if can_add_word(word, temp_words, letter_count, maxWidth):
+            temp_words.append(word)
+            letter_count += len(word)
+        else:
+            sentence = words_to_sentence(maxWidth, temp_words, letter_count)
+            par.append(sentence)
+            
+            temp_words= [word]
+            letter_count = len(word)
+                
+    sentence = words_to_left_justified_sentence(maxWidth, temp_words, letter_count)
+    par.append(sentence)
+            
+    return par
+        
+                
+def can_add_word(word, temp_words, letter_count, maxWidth):
+    
+    return len(temp_words) + len(word) + letter_count <= maxWidth
+    
+                
+def words_to_sentence(maxWidth, words, letter_count):
+        
+    if len(words) == 1:
+        return words[0] + (' ' * (maxWidth - letter_count))
+    
+    space_count = (maxWidth - letter_count) // (len(words)-1)
+    extra_space = (maxWidth - letter_count) % (len(words)-1)
+    sentence = '' 
+    
+    for word in words[:-1]:
+        sentence = sentence + word + (' ' * space_count)
+        if extra_space > 0:
+            sentence = sentence + ' '
+            extra_space -= 1
+    sentence = sentence + words[-1]
+    
+    return sentence
+    
+    
+def words_to_left_justified_sentence(maxWidth, words, letter_count):
+    
+    space_count = maxWidth - letter_count - len(words) + 1
+    sentence = ' '.join(words)
+    sentence = sentence + ' ' * space_count
+    
+    return sentence
+    
+
+
+
+
+#####################################################################################################################
+
 def textJustify(words, maxWidth):
     """
     >>> textJustify(["This", "is", "an", "example", "of", "text", "justification."], 16)
