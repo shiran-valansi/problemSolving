@@ -8,7 +8,7 @@
 # For the last line of text, it should be left justified and no extra space is inserted between words.
 
 
-#################### Better version after my coding skills improved ####################
+#################### BETTER VERSION after my coding skills improved ####################
 
 def fullJustify(words, maxWidth):
     """
