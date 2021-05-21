@@ -1,3 +1,5 @@
+import time
+
 def rearrangeOnDiagonals(a, corner):
     """
     Given a 2d array, and a number corner, rearrange the elements of the array in the following way:
@@ -31,24 +33,28 @@ def rearrangeOnDiagonals(a, corner):
     >>> rearrangeOnDiagonals([[1,2,3,4,5], [6,7,8,9,1], [2,3,4,5,6]], 1)
     [[1, 3, 6, 9, 3], [2, 5, 8, 2, 5], [4, 7, 1, 4, 6]]
 
-
     """
+    # start = time.time()
     # print("-----Start-----")
     # printMatrix(a)
 
     order = get_original_order(a)
+
+    rows = len(a)
+    cols = len(a[0])
     
     if corner == 1:
-        arrange_one(a, order)
+        arrange_one(a, order, rows, cols)
     elif corner == 2:
-        arrange_two(a, order)
+        arrange_two(a, order, rows, cols)
     elif corner == 3:
-        arrange_three(a, order)
+        arrange_three(a, order, rows, cols)
     elif corner == 4:
-        arrange_four(a, order)
+        arrange_four(a, order, rows, cols)
         
     # printMatrix(a)
 
+    # print("time: ", time.time()-start)
     return a
 
 
@@ -67,9 +73,8 @@ def get_original_order(a):
     return order
 
 
-def arrange_four(a, order):
-    rows = len(a)
-    cols = len(a[0])
+def arrange_four(a, order, rows, cols):
+    
     j = 0
 
     for i in range(0, cols):
@@ -92,9 +97,8 @@ def arrange_four(a, order):
             c -= 1
 
 
-def arrange_three(a, order):
-    rows = len(a)
-    cols = len(a[0])
+def arrange_three(a, order, rows, cols):
+
     j = 0
 
     for i in range(rows-1, -1, -1):
@@ -117,10 +121,8 @@ def arrange_three(a, order):
             c -= 1
     
     
-    
-def arrange_two(a, order):
-    rows = len(a)
-    cols = len(a[0])
+def arrange_two(a, order, rows, cols):
+
     j = 0
 
     for i in range(cols-1, -1, -1):
@@ -143,11 +145,11 @@ def arrange_two(a, order):
             c += 1
     
     
-def arrange_one(a, order):
-    rows = len(a)
-    cols = len(a[0])
+def arrange_one(a, order, rows, cols):
+
     j = 0
-    # upper half
+
+    # upper part
     for i in range(0, rows):
         r = i
         c = 0 
@@ -157,6 +159,7 @@ def arrange_one(a, order):
             j += 1
             r -= 1
             c += 1
+
     # bottom part   
     for i in range(1, cols):
         r = rows - 1
