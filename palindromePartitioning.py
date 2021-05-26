@@ -25,9 +25,9 @@ def get_parts(s, curr, all_partitions):
         all_partitions.append(curr)
         return
     
-    for j in range(len(s)):
-        if is_pal(s[:j+1]): 
-            get_parts(s[j+1:], curr + [s[:j+1]],all_partitions)
+    for size in range(len(s)):
+        if is_pal(s[:size+1]): 
+            get_parts(s[size+1:], curr + [s[:size+1]],all_partitions)
 
 
 def is_pal(word):
