@@ -15,9 +15,8 @@ def intToRoman(num):
     'D'
 
     """
-    ####### Simpler ########
     
-    num_to_roman = {
+    base_to_roman = {
         1000: 'M',
         900: 'CM',
         500: 'D',
@@ -35,7 +34,7 @@ def intToRoman(num):
 
     romans = ''
 
-    for base, roman in num_to_roman.items():
+    for base, roman in base_to_roman.items():
         
         romans += roman * (num // base)
         num = num % base
