@@ -1,51 +1,32 @@
 from collections import OrderedDict
 
+################# Using Ordered dict #################
+
 class LRUCache:
 
-    def __init__(self, capacity):
-        """ Using Ordered dict """
+    def __init__(self, capacity: int):
+        self.cap = capacity
         self.cache = OrderedDict()
-        self.capacity = capacity
 
-    def get(self, key):
+
+    def get(self, key: int) -> int:
         if key in self.cache:
-            self.promote_to_top_of_cache(key)
-            print("from get:", self.cache[key])
+            self.cache.move_to_end(key)
             return self.cache[key]
-        print("from get: -1")
         return -1
+        
 
-    def put(self, key: int, value):
-        if key in self.cache:
-            self.promote_to_top_of_cache(key)  
-        else:
-            self.adjust_capacity_if_needed()
+    def put(self, key: int, value: int) -> None:
+        
+        if self.get(key) == -1:
+            
+            if self.cap == len(self.cache):
+                self.cache.popitem(last=False)
+            
         self.cache[key] = value
-        # print("cache: ",self.cache)
-        
-    def promote_to_top_of_cache(self, key):
-        self.cache.move_to_end(key, last=True)
 
-    
-    def adjust_capacity_if_needed(self):
-        if len(self.cache) == self.capacity:
-            self.cache.popitem(last=False)
-        
 
-obj = LRUCache(2)
-obj.put(1,1)
-obj.put(2,2)
-
-param_1 = obj.get(1)
-
-obj.put(3,3)
-param_1 = obj.get(2)
-obj.put(4,4)
-param_1 = obj.get(1)
-param_1 = obj.get(3)
-param_1 = obj.get(4)
-
-############### Without Ordered Dict, with doubly linked list + hash map ###############
+############### Implementing Ordered Dict, with doubly linked list + hash map ###############
 
 class Node:
     def __init__(self, key=None, val=None, next=None, prev=None):
@@ -126,20 +107,28 @@ class LRUCache2:
         self.add(node)
 
 
-obj = LRUCache2(2)
-obj.put(1,1)
-obj.put(2,2)
+if __name__ == "__main__":
 
-param_1 = obj.get(1)
-print(param_1)
+    tasks = ["put","put","get","put","get","put","get","get","get"]
+    items = [[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]] 
+    expected = [None,None,1, None, -1,None, -1, 3,4]
+    cache1 = LRUCache(2)
+    cache2 = LRUCache2(2)
 
-obj.put(3,3)
-param_1 = obj.get(2)
-print(param_1)
-obj.put(4,4)
-param_1 = obj.get(1)
-print(param_1)
-param_1 = obj.get(3)
-print(param_1)
-param_1 = obj.get(4)
-print(param_1)
+    results1 = []
+    results2 = []
+
+    for task, item in zip(tasks, items):
+        if task == 'put':
+            results1.append(cache1.put(item[0], item[1]))
+            results2.append(cache2.put(item[0], item[1]))
+        if task == 'get':
+            results1.append(cache1.get(item[0]))
+            results2.append(cache2.get(item[0]))
+
+    for expect, result1, result2 in zip(expected, results1, results2):
+        assert(expect == result1 == result2)
+        
+    print(results1)
+    print(results2)
+    

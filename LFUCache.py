@@ -102,27 +102,17 @@ class LRUCache:
 
     def get(self, key: int) -> int:
         if key in self.cache:
-            self.promote_to_top_of_cache(key)
-            # print(self.cache)
+            self.cache.move_to_end(key, last=True)
             return self.cache[key]
         return -1
 
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            self.promote_to_top_of_cache(key)  
-        else:
-            self.adjust_capacity_if_needed()
+        if self.get(key) == -1:
+            
+            if self.capacity == len(self.cache):
+                self.cache.popitem(last=False)
+            
         self.cache[key] = value
-        # print(self.cache)
-        
-    def promote_to_top_of_cache(self, key):
-        # bring the key to the top of the cache
-        self.cache.move_to_end(key, last=True)
-
-    
-    def adjust_capacity_if_needed(self):
-        if len(self.cache) == self.capacity:
-            self.cache.popitem(last=False)
             
     
     def pop_lru(self):
