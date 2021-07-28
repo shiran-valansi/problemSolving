@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 class FreqStack:
     """
@@ -41,19 +41,15 @@ class FreqStack:
         # we would also keep track of the max frequency
         # key is freq, val is a list of values with that freq to save the LIFO order in case of a tie
         self.freq_to_val = defaultdict(list)
-        self.val_to_freq = {}
+        self.val_to_freq = Counter()
         self.max_freq = 0
 
     def push(self, val: int) -> None:
-        if val in self.val_to_freq:
-            freq = self.val_to_freq[val]
-            freq += 1
-        else:
-            freq = 1
+
+        self.val_to_freq[val] += 1
+        self.freq_to_val[self.val_to_freq[val]].append(val)
+        self.max_freq = max(self.max_freq, self.val_to_freq[val])
             
-        self.val_to_freq[val] = freq
-        self.freq_to_val[freq].append(val)
-        self.max_freq = max(self.max_freq, freq)
 
     def pop(self) -> int:
         
@@ -83,4 +79,8 @@ for task, val in zip(tasks, vals):
     if task == "pop":
         results.append(my_stack.pop())
 
-print(results)
+expected =  [None, None, None, None, None, None, 5, 7, 5, 4]
+for result, expect in zip(results, expected):
+    assert result == expect
+
+print("results: ", results)
