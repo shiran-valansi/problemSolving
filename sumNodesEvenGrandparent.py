@@ -1,5 +1,13 @@
+############## using parent and grandparent => less memory ############## 
+
+
 def sumEvenGrandparent1(root):
-    # using parent and grandparent => less memory
+    """  
+    Given a binary tree, return the sum of values of nodes with even-valued grandparent.  (A grandparent of a node is the parent of its parent, if it exists.)
+
+    If there are no nodes with an even-valued grandparent, return 0.
+    """
+
     total = 0    
     
     def dfs(node, parent, grandparent):
@@ -20,8 +28,9 @@ def sumEvenGrandparent1(root):
     
     return dfs(root, None, None)
 
+
+############## keeping track of the path of the dfs ##############
 def sumEvenGrandparent2(root):
-    # keeping track of the path of the dfs
                 
     def dfs(node, path, evens):
 
@@ -36,7 +45,6 @@ def sumEvenGrandparent2(root):
         if node.right is not None:
             dfs(node.right, path + [node.right.val], evens)
 
-
     
     # Dfs while saving the path and checking grandparent value each time
     evens = []
@@ -50,6 +58,8 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+# Our tree [6,7,8,2,7,1,3,9,null,1,4,null,null,null,5]
 
 root = TreeNode(val=6)
 left = TreeNode(val=7)
